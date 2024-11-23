@@ -20,8 +20,15 @@ public class ListEmailServlet extends HttpServlet {
         if(filePath == null) {
             throw new ServletException("filepath not set in web.xml");
         }
+        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(filePath))){
+            // charger list email depuis fichier si existe
+            emailList=(List<String>) in.readObject();
+        } catch (Exception e) {
+            throw new ServletException("erreur lors de la lecture des fichier des adresses email",e);
+        }
 
     }
+
 
 
 }
