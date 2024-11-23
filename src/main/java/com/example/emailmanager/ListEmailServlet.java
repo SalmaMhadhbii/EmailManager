@@ -15,7 +15,7 @@ public class ListEmailServlet extends HttpServlet {
 
     public void init() throws ServletException {
         // Récupérer le chemin du fichier depuis les paramètres d'initialisation
-        String filePath = getServletContext().getInitParameter("filepath");
+        String filePath = getServletConfig().getInitParameter("filePath");
 
         if(filePath == null) {
             throw new ServletException("filepath not set in web.xml");
