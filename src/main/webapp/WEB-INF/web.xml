@@ -8,7 +8,7 @@
          <servlet-class>com.example.emailmanager.ListEmailServlet</servlet-class>
          <init-param>
              <param-name>filePath</param-name>
-             <param-value>resources/adresses.txt</param-value>
+             <param-value>/WEB-INF/classes/resources/path.txt</param-value>
          </init-param>
      </servlet>
     <!-- Définition du chemin du fichier en tant que paramètre d'initialisation -->
