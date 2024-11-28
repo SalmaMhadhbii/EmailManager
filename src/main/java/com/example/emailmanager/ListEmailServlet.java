@@ -14,6 +14,7 @@ public class ListEmailServlet extends HttpServlet {
     //Initialisation : Au départ, emailList est une liste vide, c'est-à-dire qu'elle ne contient aucun élément.
     private List<String> emailList = new ArrayList<>();
 
+    //question 1
     public void init() throws ServletException {
         // Récupérer le chemin relatif depuis le paramètre d'initialisation
 
@@ -48,6 +49,7 @@ public class ListEmailServlet extends HttpServlet {
     }
 
     @Override
+    //question 2
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Configurer la réponse en tant que HTML
         response.setContentType("text/html;charset=UTF-8");
@@ -72,14 +74,53 @@ public class ListEmailServlet extends HttpServlet {
             out.println("<h3>Entrez votre addresse email:</h3>");
             out.println("<form action='/list-email-servlet' method='POST'>");
             out.println("<input type='email name='email required><br> <br>");
-            out.println("<input type='submit' value='subscribe'>");
-            out.println("<input type='submit' value='unsubscribe'>");
+            out.println("<button type='submit' name='action value='subscribe'>subscribe</button>");
+            out.println("<button type='submit' name='action value='unsubscribe'>unsubscribe</button>");
             out.println("</form>");
             out.println("</body>");
             out.println("</html>");
         }
     }
-    public void subscribe(String email){
-        
+
+    //question 3
+    public void subscribe(String email) throws IOException {
+        if (!emailList.contains(email)) {
+            emailList.add(email);
+            save();
+        }
     }
+    public void unsubscribe(String email) throws IOException {
+        if (emailList.contains(email)) {
+            emailList.remove(email);
+            save();
+        }
+    }
+    private void save() throws IOException{
+        String filePath = getServletContext().getRealPath(getServletContext().getInitParameter("filePath"));
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filePath))) {
+            out.writeObject(emailList);
+        }
+    }
+
+    //question 4
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        //recuperer les parametres de formulaire
+        // Récupère l'adresse e-mail saisie par l'utilisateur.
+        String email = request.getParameter("email");
+        //Récupère l'action choisie par l'utilisateur qui est specifie dans lattribut value de form (ex. subscribe ou unsubscribe).
+        String action = request.getParameter("action");
+
+        //gestion erreurs
+        if (email == null) {
+            //erreur email non fourni
+            out.println("<html><body>");
+            out.println("<h3 style='color:red;'>erreur : email est onligatoire</h3>");
+            doGet(request, response);
+            return;
+        }
+    }
+
 }
