@@ -61,10 +61,10 @@ public class ListEmailServlet extends HttpServlet {
         }
     }
 
-    @Override
     //question 2
+    /*
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Configurer la réponse en tant que HTML
         response.setContentType("text/html;charset=UTF-8");
 
         try (PrintWriter out = response.getWriter()) {
@@ -95,7 +95,7 @@ public class ListEmailServlet extends HttpServlet {
             out.println("</html>");
         }
     }
-
+    */
     //question 3
     public void subscribe(String email) {
         //if (!emailList.contains(email)) {
@@ -185,6 +185,12 @@ public class ListEmailServlet extends HttpServlet {
         doGet(request, response);
 
         // out.println("<a href=\"EmailServlet\">Afficher la liste</a>");
+    }
+
+    //Partie 2
+    //question 1
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher=getServletContext.getRequestDispatcher()
     }
 
 }

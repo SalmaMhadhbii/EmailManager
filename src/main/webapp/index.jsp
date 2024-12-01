@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>JSP - Hello World</title>
+  <title>Accueil</title>
 </head>
 <body>
 <h1><%= "Bienvenu à email Manager" %></h1>
