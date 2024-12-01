@@ -6,17 +6,28 @@
      <servlet>
          <servlet-name>ListEmailServlet</servlet-name>
          <servlet-class>com.example.emailmanager.ListEmailServlet</servlet-class>
-         <init-param>
+         <!-- Paramètre d'initialisation spécifique au servlet EmailServlet pour définir le chemin du fichier des emails. -->
+         <!--<init-param>
              <param-name>filePath</param-name>
              <param-value>/WEB-INF/classes/resources/path.txt</param-value>
          </init-param>
+         // Récupère le chemin du fichier d'adresses email depuis le paramètre d'initialisation spécifique au servlet.
+          String filePath = getServletConfig().getInitParameter("path.txt");
+         -->
      </servlet>
-    <!-- Définition du chemin du fichier en tant que paramètre d'initialisation -->
+
 
     <servlet-mapping>
         <servlet-name>ListEmailServlet</servlet-name>
         <url-pattern>/list-email-servlet</url-pattern>
     </servlet-mapping>
+    <!-- Paramètre global pour le chemin du fichier des emails, utilisé par tous les servlets de l'application. -->
+    <context-param>
+        <param-name>emailFilePath</param-name>
+        <param-value>/WEB-INF/classes/path.txt</param-value>
+    </context-param>
+    <!-- Récupère le chemin du fichier d'adresses email depuis le paramètre de contexte global.
+    String filePath = getServletContext().getInitParameter("path.txt"); -->
 
 
 
