@@ -132,7 +132,7 @@ public class ListEmailServlet extends HttpServlet {
     }
 
     //question 4
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    /*public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
@@ -185,12 +185,63 @@ public class ListEmailServlet extends HttpServlet {
         doGet(request, response);
 
         // out.println("<a href=\"EmailServlet\">Afficher la liste</a>");
-    }
+    }*/
 
     //Partie 2
-    //question 1
+    //question 2.1
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher=getServletContext.getRequestDispatcher()
+        // Ajouter un attribut à la requête
+        request.setAttribute("emailList",emailList);
+        // Transférer la requête et la réponse à la JSP
+         request.getRequestDispatcher("/ListEmail.jsp").forward(request, response);
+        //Dans la JSP, tu peux récupérer ces données via request.getAttribute().
+    }
+    //question 2.2
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //response.setContentType("text/html;charset=UTF-8");
+        PrintWriter out = response.getWriter();
+
+        //recuperer les parametres de formulaire
+        // Récupère l'adresse e-mail saisie par l'utilisateur.
+        String email = request.getParameter("email");
+        //Récupère l'action choisie par l'utilisateur qui est specifie dans lattribut value de form (ex. subscribe ou unsubscribe).
+        String action = request.getParameter("action");
+
+        //gestion erreurs
+        if (email == null || email.trim().isEmpty()) {
+            //erreur email non fourni
+            //response.sendError : Retourne une erreur HTTP 400 (Bad Request) avec un message expliquant le problème.
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Erreur : L'adresse email ne peut pas être vide.");
+            //Le return interrompt l'exécution de la méthode.
+            return;
+        }
+        if (action == null || action.trim().isEmpty()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Erreur : Une action est requise (Subscribe ou Unsubscribe).");
+            return;
+        }
+
+
+        //gestion de l'action
+        if (action.equals("subscribe")) {
+            if (!emailList.contains(email)) {
+                //ajouter email a la liste
+                subscribe(email);
+                //pour envoyer lobjet email qui a ete inscrit vers la jsp on utilise setAttribute
+                request.setAttribute("subscribe",email);
+            }
+        } else if (action.equals("unsubscribe")) {
+            if (emailList.contains(email)) {
+                //supprimer email de la liste
+                unsubscribe(email);
+                request.setAttribute("unsubscribe",email);
+            }
+        }
+
+
+        //reafficher page
+        doGet(request, response);
+
+
     }
 
 }
